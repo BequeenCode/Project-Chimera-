@@ -1,31 +1,30 @@
-# Skill: Trend Fetch
+# Skill: Content Generate
 
 ## Purpose
-This skill retrieves current trending topics and signals from external sources so the agent can create relevant and timely content.
+This skill generates text or media content aligned with the agent persona, campaign goal, and current trends.
 
 ## When Used
-- When the Planner assigns a trend discovery task
-- Before content generation
-- During periodic environment scanning
+- After trend selection
+- When Planner assigns content creation
+- When engagement replies are required
 
 ## Inputs
-- source: string (news, social, market)
-- timeframe: string (hourly, daily, weekly)
-- niche_filter: optional string
+- topic: string
+- content_type: string (post, caption, reply, script)
+- persona_context: object
+- platform: string
 
 ## Outputs
-- list of trend items
-  - topic
-  - source
-  - timestamp
-  - relevance_score
+- generated_content: string or media prompt
+- confidence_score: float
+- persona_alignment_flag: boolean
 
 ## MCP Dependencies
-- MCP Resource: news://latest
-- MCP Resource: social://trends
-- MCP Tool: search_trends
+- MCP Tool: text_generation
+- MCP Tool: image_generation (optional)
+- MCP Resource: persona_memory
 
 ## Constraints & Safety
-- Must not fabricate trend data
-- Must only use MCP-approved sources
-- If source unavailable, return structured error
+- Must follow persona voice and directives
+- Must avoid sensitive topics unless approved
+- Must include disclosure markers when required
