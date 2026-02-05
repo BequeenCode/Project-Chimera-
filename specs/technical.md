@@ -1,19 +1,18 @@
-# Technical Specifications
+# Technical Specification — Project Chimera
 
-## System Architecture
-- Planner-Worker-Judge pattern
-- All external connections via MCP
-- PostgreSQL for structured data
-- Weaviate for semantic memory
-- Redis for caching and queues
+## Agent Architecture
+The system uses a Planner–Worker–Judge pattern.
+- Planner: breaks goals into tasks
+- Worker: executes atomic tasks
+- Judge: validates output and enforces policies
 
-## API Examples
+## Task Schema (Draft)
 
-### Create Task:
 ```json
 {
-  "task_id": "uuid",
-  "type": "generate_content",
-  "topic": "summer fashion",
-  "platform": "instagram"
+  "task_id": "string",
+  "task_type": "string",
+  "priority": "high | medium | low",
+  "input": "object",
+  "status": "pending | in_progress | review | complete"
 }
