@@ -1,0 +1,26 @@
+# Project Chimera - AI Assistant Rules
+
+## Project Context
+This is Project Chimera: An autonomous AI influencer network using Planner-Worker-Judge pattern.
+
+## Prime Directive
+NEVER write code without first checking the specs/ directory.
+
+## Architecture Rules
+1. Use Planner-Worker-Judge pattern only
+2. All external connections via MCP
+3. Database: PostgreSQL for transactions, Weaviate for memory
+4. Security: No hardcoded secrets, validate all inputs
+
+## File Structure
+project-chimera/
+├── specs/           # READ THIS FIRST
+├── src/            # Source code
+├── skills/         # Agent capabilities
+└── tests/          # Test files
+
+## Before Coding
+1. Explain what you plan to build
+2. Reference which spec section it implements
+3. Consider security implications
+4. Plan testing approach
