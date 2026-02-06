@@ -1,0 +1,152 @@
+# AI Code Review Policy for Project-Chimera
+# Configuration for CodeRabbit AI Reviewer
+
+review:
+  # General review settings
+  request_changes_on_conflicts: true
+  collapse_when_resolved: true
+  
+  # Review scope
+  paths:
+    include:
+      - "chimera/**/*.py"
+      - "tests/**/*.py"
+      - "skills/**/*.py"
+      - "specs/**/*.md"
+    exclude:
+      - "**/__pycache__/**"
+      - "**/*.pyc"
+  
+  # Review policies
+  policies:
+    - name: "Spec Alignment Check"
+      description: "Ensure code aligns with project specifications"
+      conditions:
+        - "changes_include: ['chimera/', 'skills/']"
+      checks:
+        - name: "architecture-alignment"
+          description: "Check if code follows defined architecture"
+          prompt: |
+            Review the code changes for alignment with Project-Chimera architecture:
+            1. Does it follow the modular skill-based architecture?
+            2. Is it properly separated into concerns?
+            3. Does it maintain the API contract defined in specs/?
+            4. Are dependencies properly managed?
+          required: true
+        
+        - name: "api-contract"
+          description: "Verify API contracts are maintained"
+          prompt: |
+            Check if the code maintains the defined API contracts:
+            1. Are function signatures as specified?
+            2. Are return types correct?
+            3. Is error handling implemented?
+            4. Are data structures consistent?
+    
+    - name: "Security & Best Practices"
+      description: "Security vulnerability and best practice checks"
+      conditions:
+        - "always"
+      checks:
+        - name: "security-vulnerabilities"
+          description: "Check for common security issues"
+          prompt: |
+            Look for security vulnerabilities:
+            1. Hardcoded secrets or API keys
+            2. SQL injection risks
+            3. Insecure HTTP requests
+            4. Improper error handling exposing sensitive info
+            5. Missing input validation
+          required: true
+        
+        - name: "python-best-practices"
+          description: "Python-specific best practices"
+          prompt: |
+            Check Python code quality:
+            1. Proper use of type hints
+            2. Docstrings for public functions
+            3. Appropriate exception handling
+            4. Following PEP 8 style guide
+            5. Efficient use of resources
+    
+    - name: "Test Coverage"
+      description: "Ensure adequate test coverage"
+      conditions:
+        - "changes_include: ['chimera/', 'skills/']"
+      checks:
+        - name: "test-updates"
+          description: "Check if tests are updated with code changes"
+          prompt: |
+            Verify that:
+            1. New functionality has corresponding tests
+            2. Existing tests still pass
+            3. Test coverage is maintained
+            4. Edge cases are considered
+    
+    - name: "Documentation"
+      description: "Documentation quality checks"
+      conditions:
+        - "changes_include: ['chimera/', 'skills/', 'specs/']"
+      checks:
+        - name: "documentation-updates"
+          description: "Check if documentation is updated"
+          prompt: |
+            Ensure documentation is updated:
+            1. Docstrings for new/modified functions
+            2. README updates if public API changes
+            3. Specification documents updated
+            4. Comments for complex logic
+
+# Review behavior
+behavior:
+  summary:
+    enabled: true
+    max_tokens: 500
+  
+  auto_review:
+    enabled: true
+    min_lines: 10  # Auto-review for changes > 10 lines
+  
+  comments:
+    max_comments: 20
+    single_comment_max_tokens: 300
+  
+  # Language-specific settings
+  language: python
+  python:
+    check_type_hints: true
+    check_docstrings: true
+    enforce_pep8: true
+
+# Integration settings
+integrations:
+  github:
+    labels:
+      add:
+        - "ai-reviewed"
+        - "needs-human-review"
+    
+    status_checks:
+      - name: "coderabbit/spec-alignment"
+        description: "Spec alignment check"
+      
+      - name: "coderabbit/security"
+        description: "Security review"
+    
+    # PR size thresholds
+    large_pr_threshold: 500
+    huge_pr_threshold: 1000
+
+# Feedback customization
+feedback:
+  style: "friendly"
+  include_suggestions: true
+  suggest_fixes: true
+  include_examples: true
+  praise_good_code: true
+
+# Learning from project
+learn:
+  from_comments: true
+  from_commits: true
+  project_specific_patterns: true
