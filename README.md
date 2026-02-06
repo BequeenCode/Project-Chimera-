@@ -1,6 +1,6 @@
 # 🦄 Project Chimera: Autonomous Influencer Network
 ## 10 Academy 3-Day Challenge - Days 1 & 2 Complete
-## Student: [YOUR NAME HERE]
+## Student: Beimnet Girum 
 
 ---
 
